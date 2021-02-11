@@ -1,9 +1,10 @@
 from csv import DictReader, DictWriter
+from os.path import join
 
 
-def main():
-    with open('csv/siw.csv') as thak:
-        with open('csv_imtong/siw.csv', 'wt') as sia:
+def main(tongmia, kip, ma):
+    with open(join('csv', tongmia)) as thak:
+        with open(join('csv_imtong', tongmia), 'wt') as sia:
             tong = DictWriter(sia, fieldnames=[
                 '編號',
                 '客家語', '客語標音', '客語音檔',
@@ -20,13 +21,16 @@ def main():
                 ho = int(ho)
                 tsua['客語音檔'] = (
                     'https://wiki.hakka.gov.tw'
-                    '/file/107/1/si/w/si-{:02}-{:03}.mp3'.format(lui, ho)
+                    '/file/107/{2}/si/w/{3}-{0:02}-{1:03}.mp3'.format(
+                        lui, ho, kip, ma)
                 )
                 tsua['例句音檔'] = (
                     'https://wiki.hakka.gov.tw'
-                    '/file/107/1/si/s/si-{:02}-{:03}s.mp3'.format(lui, ho)
+                    '/file/107/{2}/si/s/{3}-{0:02}-{1:03}s.mp3'.format(
+                        lui, ho, kip, ma)
                 )
                 tong.writerow(tsua)
 
 
-main()
+main('siw.csv', '1', 'si')
+main('si3-1.csv', '2', '1si')
