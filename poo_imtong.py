@@ -62,14 +62,7 @@ def kesueleku(tsua):
         tsua['例句'] = ''
 
 
-main('siw.csv', '1', 'si')
-main('si3-1.csv', '2', '1si')
-main('si3-2.csv', '3', '2si')
-
-main('haw.csv', '1', 'ha')
-main('ha3-1.csv', '2', '1ha')
-main('ha3-2.csv', '3', '2ha')
-
-main('daw.csv', '1', 'da')
-main('da3-1.csv', '2', '1da')
-main('da3-2.csv', '3', '2da')
+for gi in ['si', 'ha', 'da', ]:
+    main('{}w.csv'.format(gi), '1', '{}'.format(gi))
+    main('{}3-1.csv'.format(gi), '2', '1{}'.format(gi))
+    main('{}3-2.csv'.format(gi), '3', '2{}'.format(gi))
