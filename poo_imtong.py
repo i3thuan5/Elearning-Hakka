@@ -48,14 +48,21 @@ def tiongkuan(tongmia, kip, ma):
             ])
             tong.writeheader()
             for tsua in DictReader(thak):
+                try:
+                    tsua.pop('')
+                except KeyError:
+                    pass
                 lui, ho = tsua['編號'].split('-')
                 lui = int(lui)
                 ho = int(ho)
-                tsua['客語音檔'] = (
-                    'https://wiki.hakka.gov.tw'
-                    '/file/107/{2}/{3}/w/{4}-{0:02}-{1:03}.mp3'.format(
-                        lui, ho, kip, gi, ma)
-                )
+                if tsua['客語標音']:
+                    tsua['客語音檔'] = (
+                        'https://wiki.hakka.gov.tw'
+                        '/file/107/{2}/{3}/w/{4}-{0:02}-{1:03}.mp3'.format(
+                            lui, ho, kip, gi, ma)
+                    )
+                else:
+                    tsua['客語音檔'] = ''
                 liantsohue = tsua.pop('華語詞義/例句')
                 try:
                     華語詞義, 例句 = liantsohue.split('例如：')
@@ -70,7 +77,11 @@ def tiongkuan(tongmia, kip, ma):
                     tsua['華語詞義'] = liantsohue.strip()
                     tsua['例句'] = ''
                     tsua['例句音檔'] = ''
-                tong.writerow(tsua)
+                try:
+                    tong.writerow(tsua)
+                except ValueError:
+                    print('tsua', tsua)
+                    raise
 
 
 main('siw.csv', '1', 'si')
@@ -83,4 +94,4 @@ tiongkuan('ha3-2.csv', '3', '2ha')
 
 main('daw.csv', '1', 'da')
 main('da3-1.csv', '2', '1da')
-# tiongkuan('da3-2.csv', '3', '2da')
+tiongkuan('da3-2.csv', '3', '2da')
