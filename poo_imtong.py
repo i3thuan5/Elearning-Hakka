@@ -63,25 +63,34 @@ def tiongkuan(tongmia, kip, ma):
                     )
                 else:
                     tsua['客語音檔'] = ''
-                liantsohue = tsua.pop('華語詞義/例句')
-                try:
-                    華語詞義, 例句 = liantsohue.split('例如：')
-                    tsua['華語詞義'] = 華語詞義.strip()
-                    tsua['例句'] = 例句.strip()
+                kesueleku(tsua)
+                if tsua['例句']:
                     tsua['例句音檔'] = (
                         'https://wiki.hakka.gov.tw'
                         '/file/107/{2}/{3}/s/{4}-{0:02}-{1:03}s.mp3'.format(
                             lui, ho, kip, gi, ma)
                     )
-                except ValueError:
-                    tsua['華語詞義'] = liantsohue.strip()
-                    tsua['例句'] = ''
+                else:
                     tsua['例句音檔'] = ''
                 try:
                     tong.writerow(tsua)
                 except ValueError:
                     print('tsua', tsua)
                     raise
+
+
+def kesueleku(tsua):
+    try:
+        liantsohue = tsua.pop('華語詞義/例句')
+    except KeyError:
+        return
+    try:
+        華語詞義, 例句 = liantsohue.split('例如：')
+        tsua['華語詞義'] = 華語詞義.strip()
+        tsua['例句'] = 例句.strip()
+    except ValueError:
+        tsua['華語詞義'] = liantsohue.strip()
+        tsua['例句'] = ''
 
 
 main('siw.csv', '1', 'si')
