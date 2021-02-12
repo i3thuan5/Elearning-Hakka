@@ -78,3 +78,5 @@ main('si3-1.csv', '2', '1si')
 tiongkuan('si3-2.csv', '3', '2si')
 
 main('haw.csv', '1', 'ha')
+main('ha3-1.csv', '2', '1ha')
+tiongkuan('ha3-2.csv', '3', '2ha')
