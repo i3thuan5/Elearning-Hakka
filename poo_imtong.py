@@ -17,37 +17,6 @@ def main(tongmia, kip, ma):
             ])
             tong.writeheader()
             for tsua in DictReader(thak):
-                lui, ho = tsua['編號'].split('-')
-                lui = int(lui)
-                ho = int(ho)
-                tsua['客語音檔'] = (
-                    'https://wiki.hakka.gov.tw'
-                    '/file/107/{2}/{3}/w/{4}-{0:02}-{1:03}.mp3'.format(
-                        lui, ho, kip, gi, ma)
-                )
-                tsua['例句音檔'] = (
-                    'https://wiki.hakka.gov.tw'
-                    '/file/107/{2}/{3}/s/{4}-{0:02}-{1:03}s.mp3'.format(
-                        lui, ho, kip, gi, ma)
-                )
-                tong.writerow(tsua)
-
-
-def tiongkuan(tongmia, kip, ma):
-    gi = ma[-2:]
-    with open(join('csv', tongmia)) as thak:
-        with open(join('csv_imtong', tongmia), 'wt') as sia:
-            tong = DictWriter(sia, fieldnames=[
-                '編號',
-                '客家語', '客語標音', '客語音檔',
-                '華語詞義',
-                '例句', '例句音檔', '翻譯',
-                '備註',
-                '詞性1', '詞性2',
-                '分類'
-            ])
-            tong.writeheader()
-            for tsua in DictReader(thak):
                 try:
                     tsua.pop('')
                 except KeyError:
@@ -95,12 +64,12 @@ def kesueleku(tsua):
 
 main('siw.csv', '1', 'si')
 main('si3-1.csv', '2', '1si')
-tiongkuan('si3-2.csv', '3', '2si')
+main('si3-2.csv', '3', '2si')
 
 main('haw.csv', '1', 'ha')
 main('ha3-1.csv', '2', '1ha')
-tiongkuan('ha3-2.csv', '3', '2ha')
+main('ha3-2.csv', '3', '2ha')
 
 main('daw.csv', '1', 'da')
 main('da3-1.csv', '2', '1da')
-tiongkuan('da3-2.csv', '3', '2da')
+main('da3-2.csv', '3', '2da')
