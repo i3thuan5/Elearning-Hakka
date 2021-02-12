@@ -24,14 +24,13 @@ def main(tongmia, kip, ma):
                 lui, ho = tsua['編號'].split('-')
                 lui = int(lui)
                 ho = int(ho)
-                if tsua['客語標音']:
-                    tsua['客語音檔'] = (
-                        'https://wiki.hakka.gov.tw'
-                        '/file/107/{2}/{3}/w/{4}-{0:02}-{1:03}.mp3'.format(
-                            lui, ho, kip, gi, ma)
-                    )
-                else:
-                    tsua['客語音檔'] = ''
+                if not tsua['客語標音']:
+                    continue
+                tsua['客語音檔'] = (
+                    'https://wiki.hakka.gov.tw'
+                    '/file/107/{2}/{3}/w/{4}-{0:02}-{1:03}.mp3'.format(
+                        lui, ho, kip, gi, ma)
+                )
                 kesueleku(tsua)
                 if tsua['例句']:
                     tsua['例句音檔'] = (
