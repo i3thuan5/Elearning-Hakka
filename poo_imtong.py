@@ -17,10 +17,7 @@ def main(tongmia, kip, ma):
             ])
             tong.writeheader()
             for tsua in DictReader(thak):
-                try:
-                    tsua.pop('')
-                except KeyError:
-                    pass
+                tshiau_nuaui_mia(tsua)
                 lui, ho = tsua['編號'].split('-')
                 lui = int(lui)
                 ho = int(ho)
@@ -61,7 +58,22 @@ def kesueleku(tsua):
         tsua['例句'] = ''
 
 
-for gi in ['si', 'ha', 'da', 'rh', ]:
+def tshiau_nuaui_mia(tsua):
+    try:
+        tsua.pop('')
+    except KeyError:
+        pass
+    try:
+        tsua['編號'] = tsua.pop('編碼')
+    except KeyError:
+        pass
+    try:
+        tsua['客語標音'] = tsua.pop('客語音標')
+    except KeyError:
+        pass
+
+
+for gi in ['si', 'ha', 'da', 'rh', 'zh', ]:
     main('{}w.csv'.format(gi), '1', '{}'.format(gi))
     main('{}3-1.csv'.format(gi), '2', '1{}'.format(gi))
     main('{}3-2.csv'.format(gi), '3', '2{}'.format(gi))
