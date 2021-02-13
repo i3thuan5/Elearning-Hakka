@@ -61,7 +61,7 @@ def kesueleku(tsua):
         tsua['例句'] = ''
 
 
-for gi in ['si', 'ha', 'da', ]:
+for gi in ['si', 'ha', 'da', 'rh', ]:
     main('{}w.csv'.format(gi), '1', '{}'.format(gi))
     main('{}3-1.csv'.format(gi), '2', '1{}'.format(gi))
     main('{}3-2.csv'.format(gi), '3', '2{}'.format(gi))
