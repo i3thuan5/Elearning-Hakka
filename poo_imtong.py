@@ -1,5 +1,6 @@
 from csv import DictReader, DictWriter
 from os.path import join
+import unicodedata
 
 
 def main(tongmia, kip, ma):
@@ -29,6 +30,9 @@ def main(tongmia, kip, ma):
                         lui, ho, kip, gi, ma)
                 )
                 kesueleku(tsua)
+                tsua['例句'] = piann_tsoji(tsua['例句'])
+                tsua['客家語'] = piann_tsoji(tsua['客家語'])
+                tsua['華語詞義'] = piann_tsoji(tsua['華語詞義'])  # 例句拆無清氣ê問題，先按呢處理
                 if tsua['例句']:
                     tsua['例句音檔'] = (
                         'https://wiki.hakka.gov.tw'
@@ -71,6 +75,44 @@ def tshiau_nuaui_mia(tsua):
         tsua['客語標音'] = tsua.pop('客語音標')
     except KeyError:
         pass
+
+
+TSOJI = {
+    # 認證詞彙例句內底ê造字
+    '\ue004': '𧩣',  # U+27A63
+    '\ue40f': '㘝',  # U+361D
+    '\ue452': '䗁',  # U+45C1
+    '\ue459': '䟘',  # U+47D8
+    '\ue560': '𤊶',  # U+242B6
+    '\ue5a4': '𪐞',  # U+2A41E
+    '\ue08d': '𢯭',  # U+22BED
+    '\ue548': '𢳆',  # U+22CC6
+
+    '\ue0c7': '𫠛',  # U+2B81B
+    '\ue700': '𫣆',  # U+2B8C6
+    '\ue711': '𫝘',  # U+2B758
+    '\ue725': '𬠖',  # U+2C816
+    '\ue72c': '𫟧',  # U+2B7E7
+    '\ue76f': '⿺皮卜',  # 無Unicode
+    # 下底是近反義詞才有出現--ê，對應豆腐烏外字表ê「客語教典PUA」欄
+    '\uf354': '䞚',  # U+479A
+    '\uf369': '𧊅',  # U+27285
+    '\uf36e': '𧩣',  # U+27A63
+    '\uf36f': '𩜰',  # U+29730
+    '\uf374': '𢯭',  # U+22BED
+    '\uf3b9': '𥉌',  # U+2524C
+    '\uf545': '⿺皮卜',  # 無Unicode
+}
+
+
+def piann_tsoji(hanji):
+    for k, v in TSOJI.items():
+        hanji = hanji.replace(k, v)
+    for ji in hanji:
+        pianbe = hex(ord(ji))
+        if unicodedata.category(ji) == 'Co':
+            print(f'欄位「{hanji}」有造字字元，編碼{pianbe}')
+    return hanji
 
 
 for gi in ['si', 'ha', 'da', 'rh', 'zh', ]:
